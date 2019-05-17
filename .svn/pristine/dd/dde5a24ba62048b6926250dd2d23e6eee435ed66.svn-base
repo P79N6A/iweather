@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width" />
+    <link type="favicon" rel="shortcut icon" href="/static/libs/jssz/favicon.ico" rel="external nofollow" />
+    <link rel="stylesheet" href="/static/libs/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/libs/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/libs/css/daterangepicker-bs3.css">
+    <title>中央气象台一张图展示系统</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script src="/static/config.js"></script>
+    <script src="/static/libs/jquery.min.js"></script>
+    <script src="/static/libs/canvas2image.js"></script>
+    <script src="/static/libs/rgbcolor.js"></script>
+    <script src="/static/libs/canvg.js"></script>
+    <script src="/static/libs/html2canvas.js"></script>
+    <script src="/static/libs/bootstrap.min.js"></script>
+    <script src="/static/libs/moment.js"></script>
+    <script src="/static/libs/daterangepicker.js"></script>
+    <script type="text/javascript" src="http://www.xdocin.com/xdoc.js"></script>
+    <script type="text/javascript" src="http://www.xdocin.com/baiduTemplate.js"></script>
+
+    <script>
+      var h = document.body.clientWidth;
+//      console.log('www'+document.getElementsByTagName('body')[0].style.zoom)
+//      document.getElementsByTagName('body')[0].style.zoom=h/1321;
+
+//      document.body.style.zoom=0.75
+      console.log(detectZoom()+"dd")
+      function detectZoom (){
+        var ratio = 0,
+          screen = window.screen,
+          ua = navigator.userAgent.toLowerCase();
+
+        if (window.devicePixelRatio !== undefined) {
+          ratio = window.devicePixelRatio;
+        }
+        else if (~ua.indexOf('msie')) {
+          if (screen.deviceXDPI && screen.logicalXDPI) {
+            ratio = screen.deviceXDPI / screen.logicalXDPI;
+          }
+        }
+        else if (window.outerWidth !== undefined && window.innerWidth !== undefined) {
+          ratio = window.outerWidth / window.innerWidth;
+        }
+
+        if (ratio){
+          ratio = Math.round(ratio * 100);
+        }
+
+        return ratio;
+      }
+      // let scale =detectZoom() * 0.01
+       // console.log(scale)
+      // document.body.style.zoom= scale
+      // document.body.style.zoom= 1821 / h;
+      // document.body.style.zoom= screen.availHeight / 1080;
+      // console.log(document.body.style.zoom)
+
+
+      window.onresize=function () {
+        var whdef = 100/1920;// 表示1920的设计图,使用100PX的默认值
+        var wW = window.innerWidth;// 当前窗口的宽度
+        var rem = wW * whdef;// 以默认比例值乘以当前窗口宽度,得到该宽度下的相应FONT-SIZE值
+        $('html').css('font-size', rem + "px");  //1rem=100px
+        console.log(wW)
+      };
+      window.onresize()
+    </script>
+    <!-- built files will be auto injected -->
+  </body>
+</html>

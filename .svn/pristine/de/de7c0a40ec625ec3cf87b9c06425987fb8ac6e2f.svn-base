@@ -1,0 +1,9 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>iweatheronemap</title><link href=/static/css/app.c3fb1d6ca26ccd715342ed9c0f89e712.css rel=stylesheet></head><body><div id=app></div><script type=text/javascript>// 北京地图服务内网
+    // var mapIpBJ = '192.168.15.216:6080';
+    var mapIpBJ = '192.168.15.174:6080';
+    /* 北京地图服务外网映射 */
+    var mapIpouter = '117.107.138.115';
+
+    var MAPIP = mapIpBJ
+
+    console.log(MAPIP)</script><script type=text/javascript src=/static/js/manifest.2ae2e69a05c33dfc65f8.js></script><script type=text/javascript src=/static/js/vendor.684095a7168dd19470d4.js></script><script type=text/javascript src=/static/js/app.c4ea1751d9325ed8129d.js></script></body></html>

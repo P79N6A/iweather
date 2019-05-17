@@ -1,0 +1,66 @@
+// get the script injected by this library
+function getScript() {
+    return document.querySelector('script[data-esri-loader]');
+}
+// has ArcGIS API been loaded on the page yet?
+export function isLoaded() {
+    // would like to just use window.require, but fucking typescript
+    return typeof window['require'] !== 'undefined';
+}
+// load the ArcGIS API on the page
+export function bootstrap(callback, options) {
+    if (options === void 0) { options = {}; }
+    // default options
+    if (!options.url) {
+        options.url = 'https://js.arcgis.com/4.3/';
+    }
+    // don't reload API if it is already loaded or in the process of loading
+    if (getScript()) {
+        callback(new Error('The ArcGIS API for JavaScript is already loaded.'));
+        return;
+    }
+    // create a script object whose source points to the API
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = options.url;
+    script.dataset['esriLoader'] = 'loading';
+    // once the script is loaded...
+    script.onload = function () {
+        // update the status of the script
+        script.dataset['esriLoader'] = 'loaded';
+        // we can now use Dojo's require() to load esri and dojo AMD modules
+        var dojoRequire = window['require'];
+        // let the caller know that the API has been successfully loaded
+        // and as a convenience, return the require function
+        // in case they want to use it directly
+        callback(null, dojoRequire);
+    };
+    // load the script
+    document.body.appendChild(script);
+}
+export function dojoRequire(modules, callback) {
+    if (isLoaded()) {
+        window['require'](modules, callback);
+    }
+    else {
+        var script_1 = getScript();
+        if (script_1) {
+            // Not yet loaded but script is in the body - use callback once loaded
+            var onScriptLoad_1 = function () {
+                window['require'](modules, callback);
+                script_1.removeEventListener('load', onScriptLoad_1, false);
+            };
+            script_1.addEventListener('load', onScriptLoad_1);
+        }
+        else {
+            // Not bootstrapped
+            throw new Error('The ArcGIS API for JavaScript has not been loaded. You must first call esriLoader.bootstrap()');
+        }
+    }
+}
+export default {
+    isLoaded: isLoaded,
+    bootstrap: bootstrap,
+    dojoRequire: dojoRequire
+};
+//# sourceMappingURL=esri-loader.js.map
